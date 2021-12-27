@@ -1,5 +1,8 @@
 package com.github.guitsilva.battleship.model.grid;
 
+import com.github.guitsilva.battleship.model.coordinates.Coordinates;
+import com.github.guitsilva.battleship.model.coordinates.InvalidCoordinateException;
+
 public class Grid {
   public static final byte SIZE = 10;
 
@@ -14,30 +17,26 @@ public class Grid {
     return this.spaces;
   }
 
-  public Space getSpace(byte line, byte column) {
-    if (!isValidCoordinate(line) || !isValidCoordinate(column)) {
+  public Space getSpace(Coordinates coordinates) {
+    if (!Coordinates.isValid(coordinates)) {
       return null;
     }
 
-    return this.spaces[line][column];
+    return this.spaces[coordinates.getLine()][coordinates.getColumn()];
   }
 
-  public void setSpace(byte line, byte column, Space newSpace)
-      throws InvalidCoordinateException, InvalidSpaceException {
+  public void setSpace(Coordinates coordinates, Space space)
+      throws InvalidSpaceException {
 
-    if (!isValidCoordinate(line)) {
-      throw new InvalidCoordinateException("invalid 'x' coordinate");
+    if (!Coordinates.isValid(coordinates)) {
+      throw new InvalidCoordinateException("invalid coordinates");
     }
 
-    if (!isValidCoordinate(column)) {
-      throw new InvalidCoordinateException("invalid 'y' coordinate");
+    if (!Space.isValid(space)) {
+      throw new InvalidSpaceException("invalid space Type");
     }
 
-    if (!isValidSpace(newSpace)) {
-      throw new InvalidSpaceException("invalid space type");
-    }
-
-    this.spaces[line][column] = newSpace;
+    this.spaces[coordinates.getLine()][coordinates.getColumn()] = space;
   }
 
   public byte getNumberOfShips() {
@@ -45,7 +44,7 @@ public class Grid {
 
     for (byte line = 0; line < Grid.SIZE; line++) {
       for (byte column = 0; column < Grid.SIZE; column++) {
-        if (this.getSpace(line, column) == Space.SHIP) {
+        if (this.getSpace(new Coordinates(line, column)) == Space.SHIP) {
           numberOfShips++;
         }
       }
@@ -54,26 +53,10 @@ public class Grid {
     return numberOfShips;
   }
 
-  public static boolean isValidCoordinate(byte coordinate) {
-    if (0 <= coordinate && coordinate < Grid.SIZE) {
-      return true;
-    }
-
-    return false;
-  }
-
-  public static boolean isValidSpace(Space space) {
-    if (space != null) {
-      return true;
-    }
-
-    return false;
-  }
-
   private void fillAllSpacesWith(Space space) {
     for (byte line = 0; line < Grid.SIZE; line++) {
       for (byte column = 0; column < Grid.SIZE; column++) {
-        this.spaces[line][column] = space;
+        this.setSpace(new Coordinates(line, column), space);
       }
     }
   }

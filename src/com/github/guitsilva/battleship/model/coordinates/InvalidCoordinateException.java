@@ -1,4 +1,4 @@
-package com.github.guitsilva.battleship.model.grid;
+package com.github.guitsilva.battleship.model.coordinates;
 
 public class InvalidCoordinateException extends RuntimeException {
 
