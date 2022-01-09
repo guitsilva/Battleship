@@ -1,12 +1,13 @@
 package com.github.guitsilva.battleship;
 
-import com.github.guitsilva.battleship.view.frames.TitleFrame;
+import com.github.guitsilva.battleship.view.frames.Frames;
 
 public class Main {
 
   public static void main(String[] args) {
-    TitleFrame titleFrame = new TitleFrame();
+    Frames frames = new Frames();
 
-    titleFrame.render();
+    frames.render();
+
   }
 }
