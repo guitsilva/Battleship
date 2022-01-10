@@ -2,11 +2,13 @@ package com.github.guitsilva.battleship.view.frames;
 
 import com.github.guitsilva.battleship.view.Console;
 
-public class TitleFrame implements Frame {
+public class InitialFrame extends Frame implements Renderable {
 
   public void render() {
     Console.clear();
-    // IMPORTANT: 25 lines x 100 columns
+
+    this.renderHeader();
+
     Console.print("Options:", 100, true, ' ');
     Console.print("");
     Console.print("(P) Play", 100, true, ' ');
@@ -16,5 +18,22 @@ public class TitleFrame implements Frame {
     Console.print("");
     Console.print("");
     Console.print("");
+  }
+
+  public String promptOption() {
+
+    String option;
+
+    while (true) {
+      option = prompt.read().toUpperCase();
+
+      if (option.equals("P") || option.equals("Q")) {
+        break;
+      } else {
+        System.out.println("Invalid option. Try again!");
+      }
+    }
+
+    return option;
   }
 }

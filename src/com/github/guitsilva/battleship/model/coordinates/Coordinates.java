@@ -1,13 +1,15 @@
 package com.github.guitsilva.battleship.model.coordinates;
 
+import java.util.Random;
+
 import com.github.guitsilva.battleship.model.grid.Grid;
 
 public class Coordinates {
 
-  final static String CHARS = "ABCDEFGHIJ";
+  public final static String CHARS = "ABCDEFGHIJ";
 
-  final private byte line;
-  final private byte column;
+  private final byte line;
+  private final byte column;
 
   public Coordinates(char lineChar, byte column) {
     this(convertCharToIndex(lineChar), column);
@@ -75,5 +77,13 @@ public class Coordinates {
     }
 
     return true;
+  }
+
+  public static Coordinates getRandomCoordinates() {
+
+    byte randomLine = (byte) new Random().nextInt(CHARS.length());
+    byte randomColumn = (byte) new Random().nextInt(CHARS.length());
+
+    return new Coordinates(randomLine, randomColumn);
   }
 }
